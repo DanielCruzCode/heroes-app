@@ -1,0 +1,5 @@
+export * from './CharacterPage'
+export * from './CharactersPage'
+export * from './ComicsPage'
+export * from './HomePage'
+export * from './SearchPage'

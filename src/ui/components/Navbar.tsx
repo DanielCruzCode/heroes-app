@@ -41,9 +41,7 @@ export const Navbar = () => {
         </li>
       </ul>
       <ul className="flex items-center justify-center gap-3">
-        <li className="flex items-center gap-2 w-28 navlink">
-          <ProfileIcon firstName="Daniel" lastName="Cruz" width={35} rounded={true} /> Daniel
-        </li>
+        <li className="flex items-center gap-2 w-28 navlink">Daniel</li>
         <li className="navlink">
           <button onClick={handleLogout}>Logout</button>
         </li>

@@ -1,6 +1,10 @@
 export {}
 
 declare global {
+  interface FetchAPI {
+    hasError: boolean
+    isLoading: boolean
+  }
   interface ComicDataWrapper {
     code?: number //The HTTP status code of the returned result.,
     status?: string // A string description of the call status.,
@@ -16,6 +20,10 @@ declare global {
     total?: number // The total number of resources available given the current filter set.,
     count?: number // The total number of results returned by this call.,
     results?: Array<Comic> // The list of comics returned by the call
+  }
+
+  interface ComicApi extends FetchAPI {
+    data: ComicDataContainer
   }
 
   interface Comic {
@@ -121,5 +129,86 @@ declare global {
   type EventSummary = {
     resourceURI?: string // The path to the individual event resource.,
     name?: string // The name of the event.
+  }
+
+  // Characters types
+
+  interface CharacterDataWrapper {
+    code?: number // The HTTP status code of the returned result.,
+    status?: string // A string description of the call status.,
+    copyright?: string // The copyright notice for the returned result.,
+    attributionText?: string // The attribution notice for this result. Please display either this notice or the contents of the attributionHTML field on all screens which contain data from the Marvel Comics API.,
+    attributionHTML?: string // An HTML representation of the attribution notice for this result. Please display either this notice or the contents of the attributionText field on all screens which contain data from the Marvel Comics API.,
+    data?: CharacterDataContainer // The results returned by the call.,
+    etag?: string // A digest value of the content returned by the call.
+  }
+
+  type CharacterDataContainer = {
+    offset?: number //The requested offset(number of skipped results) of the call.,
+    limit?: number //The requested result limit.,
+    total?: number //The total number of resources available given the current filter set.,
+    count?: number //The total number of results returned by this call.,
+    results?: Array<Character> //The list of characters returned by the call.
+  }
+
+  interface CharacterApi extends FetchAPI {
+    data: CharacterDataContainer
+  }
+
+  type Character = {
+    id?: number // The unique ID of the character resource.,
+    name?: string // The name of the character.,
+    description?: string // A short bio or description of the character.,
+    modified?: Date // The date the resource was most recently modified.,
+    resourceURI?: string // The canonical URL identifier for this resource.,
+    urls?: Array<Url> // A set of public web site URLs for the resource.,
+    thumbnail?: Image // The representative image for this character.,
+    comics?: ComicList // A resource list containing comics which feature this character.,
+    stories?: StoryList // A resource list of stories in which this character appears.,
+    events?: EventList // A resource list of events in which this character appears.,
+    series?: SeriesList // A resource list of series in which this character appears.
+  }
+
+  type Url = {
+    type?: string // A text identifier for the URL.,
+    url?: string // A full URL (including scheme, domain, and path).
+  }
+  type Image = {
+    path?: string // The directory path of to the image.,
+    extension?: string // The file extension for the image.
+  }
+  type ComicList = {
+    available?: int // The number of total available issues in this list. Will always be greater than or equal to the "returned" value.,
+    returned?: int // The number of issues returned in this collection (up to 20).,
+    collectionURI?: string // The path to the full list of issues in this collection.,
+    items?: Array<ComicSummary> // The list of returned issues in this collection.
+  }
+  type ComicSummary = {
+    resourceURI?: string // The path to the individual comic resource.,
+    name?: string // The canonical name of the comic.
+  }
+  type StoryList = {
+    available?: int // The number of total available stories in this list. Will always be greater than or equal to the "returned" value.,
+    returned?: int // The number of stories returned in this collection (up to 20).,
+    collectionURI?: string // The path to the full list of stories in this collection.,
+    items?: Array<StorySummary> // The list of returned stories in this collection.
+  }
+  type StorySummary = {
+    resourceURI?: string // The path to the individual story resource.,
+    name?: string // The canonical name of the story.,
+    type?: string // The type of the story (interior or cover).
+  }
+
+  type SeriesList = {
+    available?: int // The number of total available series in this list. Will always be greater than or equal to the "returned" value.,
+    returned?: int // The number of series returned in this collection (up to 20).,
+    collectionURI?: string // The path to the full list of series in this collection.,
+    items?: Array<SeriesSummary> // The list of returned series in this collection.
+  }
+
+  //  SERIES TYPES
+
+  interface SeriesAPI extends FetchAPI {
+    data: CharacterDataContainer
   }
 }

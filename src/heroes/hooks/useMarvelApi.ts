@@ -12,15 +12,17 @@ const ts = import.meta.env.VITE_MARVEL_TS
  * @returns data, isLoading, error object
  */
 
-export const useMarvelApi = (initialUrlPath: string, initialData: any) => {
+export const useMarvelApi = (initialUrlPath: string, initialData: any, queryParams: Array<string> = []) => {
   const [data, setData] = useState<any>(initialData)
-  const [url, setUrl] = useState<string>(initialUrlPath)
   const [isLoading, setIsLoading] = useState(true)
   const [hasError, setHasError] = useState(false)
 
+  const [url, setUrl] = useState<string>(initialUrlPath)
+  const solvedQueryParams = queryParams.join('&')
+
   const fetchData = async () => {
     try {
-      const res = await fetch(`${baseUrl}/${url}?apikey=${apiKey}&ts=${ts}&hash=${hash}`)
+      const res = await fetch(`${baseUrl}/${url}?apikey=${apiKey}&ts=${ts}&hash=${hash}&${solvedQueryParams}`)
       const data: ComicDataWrapper = await res.json()
       console.log('Data:', data)
       setData(data.data)
